@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en-gb">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/json2/json2.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="bower_components/chance/dist/chance.min.js"></script>
+    <style>
+      #conversation, #conversationList {
+        display: inline-block;
+      }
+
+      #conversation {
+        border: 1px solid bisque;
+      }
+
+      #conversationList > li{
+        border-bottom: 1px solid;
+        padding: 10px 2px;
+        list-style: none;
+      }
+
+      #conversationList > li:nth-child(even) {
+        background-color: #eee;
+        border-bottom-color: #bbb;
+      }
+
+    </style>
+  </head>
+  <body>
+    <a href="?hello">hello</a>
+    <ul id="conversationList"></ul>
+    <div id="conversation"></div>
+  </body>
+  <script src="models.js"></script>
+  <script src="views.js"></script>
+  <script src="routes.js"></script>
+  <script src="app.js"></script>
+</html>
