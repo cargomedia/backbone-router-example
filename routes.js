@@ -5,29 +5,51 @@
   conversationView: null,
 
   routes: {
-    '?hello': 'defaultView',
-    '?conversation': 'showConversation'
-    //'/conversation?sid=:sid': 'showConversation'
-    //'view?viewid=:viewid': 'handleRouteAll',
+    '': 'defaultView',
+    'conversation': 'showConversation',
+    'conversation?id=:id': 'showConversation'
   },
 
   initialize: function() {
     this.conversationCollection = new ConversationCollection();
     this.conversationListView = new ConversationListView({el: $('#conversationList'), model: this.conversationCollection});
-    this.conversationView = new ConversationView({el: $('#conversation')});
-  },
+    this.conversationView = new ConversationView({el: $('#conversation'), model: new Conversation});
 
-  defaultView: function() {
     for (var i = 15; i > 0; i--) {
       var conversation = new Conversation();
       this.conversationCollection.add(conversation);
     }
+
+    //intercept all clicks to delegate links to Backbone.router
+    var domain = location.href.substr(0, location.href.lastIndexOf('/'));
+    var self = this;
+    $('body').click(function(event) {
+      var $target = $(event.target).closest('a');
+      if ($target.length) {
+        var href = $target.prop('href');
+        if (href) {
+          var indexOfDomain = href.indexOf(domain);
+          if (indexOfDomain === 0) {
+            href = href.substring(domain.length);
+          }
+        }
+        self.navigate(href, {trigger: true});
+        return false;
+      }
+    });
+  },
+
+  defaultView: function() {
+    this.conversationView.model.clear();
   },
 
   showConversation: function(id) {
-    debugger;
+    console.log('showConversation is called with queryString: ', Array.prototype.join.call(arguments));
     this.conversationCollection.reset();
-    this.conversationView.model = new Conversation;
-    console.log('showConversation', arguments);
+    var conversation = this.conversationCollection.get(id);
+    if (!conversation) {
+      conversation = new Conversation({id: id});
+    }
+    this.conversationView.model.set(conversation.attributes);
   }
 });

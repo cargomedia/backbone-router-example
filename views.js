@@ -15,11 +15,7 @@ var ConversationListItemView = Backbone.View.extend({
       minute: '2-digit'
     });
     var lastMessage = this.model.get('messages').slice(-1)[0];
-    //var t = {conversation: {id: this.model.get('_id'), type: this.model.get('_type')}};
-    //var t = {conversation: {id: this.model.get('_id')}};
-    //var conversationLink = jQuery.param(t);
-    //var conversationLink = 'conversation?sid=' + this.model.get('_id');
-    var conversationLink = '?conversation';
+    var conversationLink = 'conversation?id=' + this.model.id;
     this.$el.html('<a href="' + conversationLink + '"><strong>' + created + ': </strong><span>' + lastMessage + '</span></a>');
     return this;
   }
@@ -55,10 +51,11 @@ var ConversationView = Backbone.View.extend({
   },
 
   render: function() {
-    if (this.model) {
+    this.$el.empty();
+    if (this.model && this.model.has('messages')) {
       this.model.get('messages').forEach(function(message) {
-        this.$el.append('<li>' + document.createTextNode(message) + '</li>');
-      });
+        $('<li></li>').append(document.createTextNode(message)).appendTo(this.$el);
+      }.bind(this));
     }
     return this;
   }

@@ -10,18 +10,11 @@ function randomMessages() {
 var Conversation = Backbone.Model.extend({
   defaults: function() {
     return {
-      //_id: chance.string({length: 14, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
-      _id: chance.string({length: 3, pool: '123456789'}),
-      _type: chance.integer({min: 301, max: 303}),
+      id: chance.string({length: 3, pool: '123456789'}),
+      type: chance.integer({min: 301, max: 303}),
       created: chance.timestamp(),
       messages: randomMessages()
     }
-  },
-
-  idAttribute: '_compoundId',
-
-  initialize: function() {
-    this.set('_compoundId', this.get('_id') + '-' + this.get('_type'));
   }
 
 });
