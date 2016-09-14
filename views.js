@@ -16,7 +16,7 @@ var ConversationListItemView = Backbone.View.extend({
     });
     var lastMessage = this.model.get('messages').slice(-1)[0];
     var conversationLink = 'conversation?id=' + this.model.id;
-    this.$el.html('<a href="' + conversationLink + '"><strong>' + created + ': </strong><span>' + lastMessage + '</span></a>');
+    this.$el.html('<a href="/' + conversationLink + '"><strong>' + created + ': </strong><span>' + lastMessage + '</span></a>');
     return this;
   }
 });

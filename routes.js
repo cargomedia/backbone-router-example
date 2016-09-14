@@ -21,19 +21,13 @@
     }
 
     //intercept all clicks to delegate links to Backbone.router
-    var domain = location.href.substr(0, location.href.lastIndexOf('/'));
     var self = this;
-    $('body').click(function(event) {
-      var $target = $(event.target).closest('a');
-      if ($target.length) {
-        var href = $target.prop('href');
-        if (href) {
-          var indexOfDomain = href.indexOf(domain);
-          if (indexOfDomain === 0) {
-            href = href.substring(domain.length);
-          }
-        }
-        self.navigate(href, {trigger: true});
+    $('a[href^="/"]').click(function(event) {
+      if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        event.preventDefault();
+        var href = $(event.currentTarget).attr('href');
+        var url = href.replace(/^\//, '').replace('\#\!\/', '');
+        self.navigate(url, {trigger: true});
         return false;
       }
     });
